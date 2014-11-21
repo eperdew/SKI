@@ -5,6 +5,7 @@ let rec print_ski (e:ski) : unit =
   |S -> print_string "S"
   |K -> print_string "K"
   |I -> print_string "I"
+  |Var(v) -> print_string v
   |Term(e1,e2) -> print_string "("; (print_ski e1); (print_ski e2); print_string ")"
 
 let rec print_program (p:program) : unit =
