@@ -1,4 +1,3 @@
-type info = (int * int) * (int * int)
 
 type var = string
 	     

@@ -1,5 +1,6 @@
 open Stack
 open Ast
+open Pprint
 
 type env = var -> ski
 

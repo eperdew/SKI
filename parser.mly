@@ -27,6 +27,5 @@ t : STERM                 { S }
   | VAR                   { Var($1) }
        
 /* SKI Programs */
-p : p EOF                 { $1 }
-  | t EOF	          { Ski($1) }
+p : t EOF	          { Ski($1) }
   | LET VAR EQUALS t IN p { Let($2,$4,$6) }
