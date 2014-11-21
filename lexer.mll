@@ -2,7 +2,7 @@
 open Parser
 open Printf
 exception Eof
-exception LexingError of string
+exception LexingError
 
 let lineno = ref 1
 let linestart = ref (-1)
@@ -11,7 +11,7 @@ let newline lexbuf : unit =
   linestart := Lexing.lexeme_start lexbuf;
   incr lineno
 
-let info lexbuf = 
+(* let info lexbuf = 
   let c1 = Lexing.lexeme_start lexbuf in
   let c2 = Lexing.lexeme_end lexbuf in
   let l = !lineno in
@@ -30,18 +30,24 @@ let error lexbuf msg =
     s
     msg 
     t in 
-  raise (LexingError err)   
+  raise (LexingError err)   *)
 }
 
-let ws = [' ' '\t' '\n']
+
+let id = ['a'-'z' 'A'-'Z'] ['a'-'z' 'A'-'Z' '0'-'9' '_'] *
+let ws = [' ' '\t' '\n']		      
 
 rule token = parse
 | ws      { token lexbuf }
-| 'S'     { STERM(info lexbuf) }
-| 'K'     { KTERM(info lexbuf) }
-| 'I'     { ITERM(info lexbuf) }
-| '('     { LPAREN(info lexbuf) }
-| ')'     { RPAREN(info lexbuf) }
+| 'S'     { STERM }
+| 'K'     { KTERM }
+| 'I'     { ITERM }
+| '('     { LPAREN }
+| ')'     { RPAREN }
+| "let"   { LET }
+| '='     { EQUALS }
+| "in"    { IN }
+| id as v { VAR(v) }
 | eof     { EOF }
-| _ as c  { error lexbuf (String.make 1 c) }
+| _ as c  { raise LexingError }
 

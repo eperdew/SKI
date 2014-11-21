@@ -1,10 +1,14 @@
 type token =
-  | LPAREN of (Ast.info)
-  | RPAREN of (Ast.info)
-  | STERM of (Ast.info)
-  | KTERM of (Ast.info)
-  | ITERM of (Ast.info)
+  | LPAREN
+  | RPAREN
+  | STERM
+  | KTERM
+  | ITERM
+  | LET
+  | IN
+  | EQUALS
   | EOF
+  | VAR of (string)
 
 val p :
-  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Ast.exp
+  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Ast.program

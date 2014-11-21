@@ -6,11 +6,14 @@ open Lexing
 let merge (fn,pos1,_) (_,_,pos2) = (fn,pos1,pos2)
 %}
 
-%token <Ast.info> LPAREN RPAREN STERM KTERM ITERM
-%token EOF
+%token LPAREN RPAREN
+       STERM KTERM ITERM
+       LET IN EQUALS
+       EOF
+%token <string> VAR
 
-%type <Ast.exp> t
-%type <Ast.exp> p 
+%type <Ast.ski> t
+%type <Ast.program> p 
 
 %start p
  
@@ -21,7 +24,9 @@ t : STERM                 { S }
   | KTERM                 { K }
   | ITERM                 { I }
   | LPAREN t t RPAREN     { Term($2, $3) }
-	     
+  | VAR                   { Var($1) }
        
-/* Total Trees */
-p : t EOF                 { $1 }
+/* SKI Programs */
+p : p EOF                 { $1 }
+  | t EOF	          { Ski($1) }
+  | LET VAR EQUALS t IN p { Let($2,$4,$6) }

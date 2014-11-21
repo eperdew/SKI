@@ -1,8 +1,14 @@
 type info = (int * int) * (int * int)
 
-type exp =
+type var = string
+	     
+type ski =
   |S
   |K
   |I
-  |Term of exp*exp
+  |Var of var
+  |Term of ski*ski
 
+type program =
+  |Let of var*ski*program
+  |Ski of ski
